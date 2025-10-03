@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Số dư • Sòng Địa Ngục</title>
+    <title>Cổng vào Địa ngục • Đăng nhập</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -15,17 +15,16 @@
       <div class="sidebar__user">
         <div class="avatar" id="avatar">ND</div>
         <div class="user__meta">
-          <div class="user__name" id="username">Người chơi</div>
+          <div class="user__name" id="username">Khách</div>
         </div>
       </div>
       <nav class="sidebar__menu">
+        <a class="nav__item" href="./index.html">Bàn chơi</a>
         <a class="nav__item" href="./account.html">Tài khoản</a>
         <a class="nav__item" href="./balance.html">Số dư</a>
         <a class="nav__item" href="./contact.html">Liên hệ</a>
         <a class="nav__item" href="./help.html">Trợ giúp</a>
-        <a class="nav__item" id="login-link" href="./login.html">Đăng nhập</a>
         <a class="nav__item" id="register-link" href="./register.html">Đăng ký</a>
-        <button class="nav__item" id="logout-link" type="button">Đăng xuất</button>
       </nav>
       <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Đóng/mở thanh điều hướng" aria-expanded="true">
         <span class="triangle" aria-hidden="true"></span>
@@ -33,24 +32,26 @@
     </nav>
     <main class="app">
       <header class="app__header">
-        <h1>Số dư</h1>
+        <h1>Cổng vào Địa ngục</h1>
       </header>
-      <section class="table">
-        <div class="balance__summary">
-          <div>Ngân quỹ hiện tại: <strong id="balance-amount">0</strong></div>
-        </div>
-        <form id="balance-form" class="form form--row">
-          <input type="number" id="balance-value" placeholder="Số tiền" min="1" step="1" />
-          <button class="btn" type="button" id="deposit-btn">Nạp</button>
-          <button class="btn" type="button" id="withdraw-btn">Rút</button>
+      <section class="table auth__container">
+        <form id="login-form" class="auth auth--gate">
+          <div class="auth__row">
+            <label>Email</label>
+            <input type="email" id="login-email" required placeholder="you@example.com" />
+          </div>
+          <div class="auth__row">
+            <label>Mật khẩu</label>
+            <input type="password" id="login-password" required placeholder="••••••••" />
+          </div>
+          <div class="form__actions">
+            <button class="btn btn--primary" type="submit">Đăng nhập</button>
+          </div>
         </form>
-        <div class="history">
-          <h3>Lịch sử giao dịch</h3>
-          <ul id="balance-history" class="list"></ul>
-        </div>
       </section>
     </main>
     <script src="./app.js" defer></script>
   </body>
   </html>
+
 

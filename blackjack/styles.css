@@ -149,4 +149,31 @@ input[type="number"] {
 .triangle { width: 0; height: 0; border-left: 8px solid var(--text); border-top: 6px solid transparent; border-bottom: 6px solid transparent; display: inline-block; transition: transform 0.2s ease; }
 .sidebar--collapsed .triangle { transform: rotate(180deg); }
 
+/* Forms */
+.form { display: grid; gap: 12px; }
+.form__row { display: grid; gap: 6px; }
+.form__actions { display: flex; gap: 8px; }
+.form--row { display: flex; gap: 8px; align-items: center; }
+.form input, .form textarea, .auth input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.25); background: #0b0b0b; color: var(--text); }
+.form textarea { resize: vertical; }
+
+.list { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
+.list li { padding: 8px 10px; background: #0f0f0f; border: 1px solid rgba(255,0,0,0.15); border-radius: 8px; }
+
+/* Auth */
+.auth__container { display: grid; place-items: center; min-height: 360px; }
+.auth { width: min(520px, 100%); margin: 0 auto; }
+.auth__row { display: grid; gap: 6px; margin-bottom: 10px; }
+
+/* Gate (login) */
+.auth--gate { background: radial-gradient(400px 200px at 50% -40px, rgba(255,0,0,0.25), rgba(0,0,0,0.6)); border: 1px solid rgba(255,0,0,0.2); border-radius: 16px; padding: 18px; box-shadow: inset 0 0 30px rgba(255,0,0,0.08), 0 10px 30px rgba(0,0,0,0.4); }
+
+/* Scroll (register) */
+.auth--scroll { position: relative; padding: 22px 18px; background: #111; border: 1px solid rgba(255,0,0,0.2); }
+.auth--scroll::before,
+.auth--scroll::after { content: ""; position: absolute; left: 12px; right: 12px; height: 16px; background: linear-gradient(180deg, #3a0000, #1a0000); border: 1px solid rgba(255,0,0,0.3); border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.5) inset; }
+.auth--scroll::before { top: -10px; }
+.auth--scroll::after { bottom: -10px; }
+.auth--scroll { border-radius: 10px; }
+
 
