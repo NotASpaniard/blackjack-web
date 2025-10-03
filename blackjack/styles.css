@@ -140,7 +140,7 @@ input[type="number"] {
 .sidebar--collapsed .user__name { display: none; }
 
 .sidebar__menu { display: grid; gap: 6px; padding: 4px; }
-.nav__item { appearance: none; background: transparent; border: none; color: var(--text); text-align: left; padding: 10px 10px; border-radius: 8px; cursor: pointer; }
+.nav__item { display: block; text-decoration: none; appearance: none; background: transparent; border: none; color: var(--text); text-align: left; padding: 10px 10px; border-radius: 8px; cursor: pointer; }
 .nav__item:hover { background: rgba(255,0,0,0.08); }
 .sidebar--collapsed .nav__item { text-indent: -9999px; height: 38px; position: relative; }
 .sidebar--collapsed .nav__item::after { content: "•"; position: absolute; left: 12px; top: 8px; color: var(--accent); text-indent: 0; }
