@@ -132,6 +132,7 @@ function setAuthUI() {
   const logoutLink = document.getElementById("logout-link");
   const username = document.getElementById("username");
   const avatar = document.getElementById("avatar");
+  const ctaPlay = document.getElementById("cta-play");
   const user = getUser();
   const logged = !!user;
   if (loginLink) loginLink.style.display = logged ? "none" : "block";
@@ -144,6 +145,10 @@ function setAuthUI() {
   }
   if (logoutLink) {
     logoutLink.onclick = () => { setUser(null); setAuthUI(); };
+  }
+  if (ctaPlay) {
+    ctaPlay.style.display = logged ? 'block' : 'none';
+    ctaPlay.onclick = () => { location.href = './index.html'; };
   }
 }
 
