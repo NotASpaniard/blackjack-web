@@ -19,9 +19,19 @@ body {
   color: var(--text);
   background: radial-gradient(1200px 800px at 50% -200px, #2a0000, var(--bg));
 }
+/* Animated red-black water background for game page */
+.water-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(60% 40% at 30% 20%, rgba(255,0,0,0.15), transparent 60%), radial-gradient(50% 40% at 80% 10%, rgba(255,0,0,0.12), transparent 60%), radial-gradient(50% 40% at 20% 80%, rgba(255,0,0,0.1), transparent 60%), radial-gradient(60% 50% at 80% 80%, rgba(120,0,0,0.12), transparent 60%), linear-gradient(180deg, rgba(10,10,10,0.8), rgba(5,5,5,0.9)); filter: saturate(1.1) contrast(1); }
+.water-bg::before, .water-bg::after { content: ""; position: absolute; inset: -20%; background: radial-gradient(120% 80% at 50% 50%, rgba(255,0,0,0.08), transparent 70%), radial-gradient(100% 60% at 30% 40%, rgba(255,0,0,0.05), transparent 70%); mix-blend-mode: screen; opacity: 0.8; animation: waveShift 18s ease-in-out infinite; }
+.water-bg::after { animation-duration: 26s; animation-direction: reverse; opacity: 0.6; }
+@keyframes waveShift {
+  0% { transform: translate3d(0,0,0) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: translate3d(-2%,3%,0) scale(1.03); filter: hue-rotate(-6deg); }
+  100% { transform: translate3d(0,0,0) scale(1); filter: hue-rotate(0deg); }
+}
 
 .app { max-width: 960px; margin: 0 auto; padding: 16px; }
 .app { margin-left: calc(var(--sidebar-w) + 16px); transition: margin-left 0.2s ease; }
+.no-sidebar .app { margin-left: 16px; }
 .sidebar--collapsed ~ .app { margin-left: calc(var(--sidebar-w-collapsed) + 16px); }
 
 .app__header { display: flex; align-items: center; justify-content: space-between; }
