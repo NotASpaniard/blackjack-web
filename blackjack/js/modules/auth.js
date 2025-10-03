@@ -43,11 +43,10 @@ export function guardPage(role) {
 }
 
 export function initAuthSplit() {
-  const stack = document.getElementById('authstack');
-  if (!stack) return;
+  const container = document.getElementById('auth-container');
+  if (!container) return;
   const setMode = (mode) => {
-    stack.classList.toggle('authstack--login', mode === 'login');
-    stack.classList.toggle('authstack--register', mode === 'register');
+    container.classList.toggle('active', mode === 'register');
     document.body.style.background = mode === 'register'
       ? 'radial-gradient(1200px 800px at 50% -200px, #3a0000, #090909)'
       : 'radial-gradient(1200px 800px at 50% -200px, #1f0000, #0b0b0b)';
@@ -58,10 +57,10 @@ export function initAuthSplit() {
   };
   window.addEventListener('hashchange', applyHash);
   applyHash();
-  const showRegister = document.getElementById('show-register');
-  const showLogin = document.getElementById('show-login');
-  if (showRegister) showRegister.addEventListener('click', () => { location.hash = '#register'; });
-  if (showLogin) showLogin.addEventListener('click', () => { location.hash = '#login'; });
+  const regBtn = document.querySelector('.register-btn');
+  const logBtn = document.querySelector('.login-btn');
+  if (regBtn) regBtn.addEventListener('click', () => { location.hash = '#register'; });
+  if (logBtn) logBtn.addEventListener('click', () => { location.hash = '#login'; });
 }
 
 export function handleLoginSubmit() {
