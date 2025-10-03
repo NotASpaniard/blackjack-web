@@ -6,29 +6,7 @@
     <title>Đăng nhập / Đăng ký • Sòng Địa Ngục</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
-    <nav class="sidebar" id="sidebar">
-      <div class="sidebar__brand">
-        <span class="brand__logo">♠</span>
-        <span class="brand__name">Sòng Địa Ngục</span>
-      </div>
-      <div class="sidebar__user">
-        <div class="avatar" id="avatar">ND</div>
-        <div class="user__meta">
-          <div class="user__name" id="username">Khách</div>
-        </div>
-      </div>
-      <nav class="sidebar__menu">
-        <a class="nav__item" href="./index.html">Bàn chơi</a>
-        <a class="nav__item" href="./account.html">Tài khoản</a>
-        <a class="nav__item" href="./balance.html">Số dư</a>
-        <a class="nav__item" href="./contact.html">Liên hệ</a>
-        <a class="nav__item" href="./help.html">Trợ giúp</a>
-      </nav>
-      <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Đóng/mở thanh điều hướng" aria-expanded="true">
-        <span class="triangle" aria-hidden="true"></span>
-      </button>
-    </nav>
+  <body class="no-sidebar">
     <main class="app">
       <header class="app__header">
         <h1>Đăng nhập / Đăng ký</h1>
@@ -87,7 +65,7 @@
         </div>
       </section>
     </main>
-    <script src="./app.js" defer></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
   </html>
 
