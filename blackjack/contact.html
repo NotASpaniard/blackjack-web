@@ -23,6 +23,9 @@
         <a class="nav__item" href="./balance.html">Số dư</a>
         <a class="nav__item" href="./contact.html">Liên hệ</a>
         <a class="nav__item" href="./help.html">Trợ giúp</a>
+        <a class="nav__item" id="login-link" href="./login.html">Đăng nhập</a>
+        <a class="nav__item" id="register-link" href="./register.html">Đăng ký</a>
+        <button class="nav__item" id="logout-link" type="button">Đăng xuất</button>
       </nav>
       <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Đóng/mở thanh điều hướng" aria-expanded="true">
         <span class="triangle" aria-hidden="true"></span>
@@ -33,7 +36,23 @@
         <h1>Liên hệ</h1>
       </header>
       <section class="table">
-        <p>Trang này đang được xây dựng.</p>
+        <form id="ticket-form" class="form">
+          <div class="form__row">
+            <label>Chủ đề</label>
+            <input type="text" id="ticket-subject" placeholder="Vấn đề bạn gặp phải" />
+          </div>
+          <div class="form__row">
+            <label>Nội dung</label>
+            <textarea id="ticket-content" rows="5" placeholder="Mô tả chi tiết..."></textarea>
+          </div>
+          <div class="form__actions">
+            <button class="btn btn--primary" type="submit">Gửi</button>
+          </div>
+        </form>
+        <div class="history">
+          <h3>Yêu cầu đã gửi</h3>
+          <ul id="ticket-history" class="list"></ul>
+        </div>
       </section>
     </main>
     <script src="./app.js" defer></script>

@@ -69,6 +69,9 @@ const IS_GAME = Boolean(
 
 const STORAGE_KEY = "blackjack_bankroll_v1";
 const STORAGE_SIDEBAR = "blackjack_sidebar_open_v1";
+const STORAGE_USER = "blackjack_user_v1";
+const STORAGE_HISTORY = "blackjack_tx_history_v1";
+const STORAGE_TICKETS = "blackjack_tickets_v1";
 
 const game = {
   deck: [],
@@ -113,6 +116,144 @@ function setSidebarOpen(open) {
     els.sidebar.classList.add("sidebar--collapsed");
     els.sidebarToggle && els.sidebarToggle.setAttribute("aria-expanded", "false");
   }
+}
+
+// Auth/session helpers
+function getUser() {
+  try { const raw = localStorage.getItem(STORAGE_USER); return raw ? JSON.parse(raw) : null; } catch { return null; }
+}
+function setUser(user) {
+  try { if (user) localStorage.setItem(STORAGE_USER, JSON.stringify(user)); else localStorage.removeItem(STORAGE_USER); } catch {}
+}
+function isLoggedIn() { return !!getUser(); }
+function setAuthUI() {
+  const loginLink = document.getElementById("login-link");
+  const registerLink = document.getElementById("register-link");
+  const logoutLink = document.getElementById("logout-link");
+  const username = document.getElementById("username");
+  const avatar = document.getElementById("avatar");
+  const user = getUser();
+  const logged = !!user;
+  if (loginLink) loginLink.style.display = logged ? "none" : "block";
+  if (registerLink) registerLink.style.display = logged ? "none" : "block";
+  if (logoutLink) logoutLink.style.display = logged ? "block" : "none";
+  if (username) username.textContent = logged ? (user.nick || user.name || user.email) : "Khách";
+  if (avatar) {
+    const text = (logged ? (user.nick || user.name || user.email || "?") : "ND").trim();
+    avatar.textContent = text.slice(0, 2).toUpperCase();
+  }
+  if (logoutLink) {
+    logoutLink.onclick = () => { setUser(null); setAuthUI(); };
+  }
+}
+
+// Page initializers
+function initLoginPage() {
+  const form = document.getElementById("login-form");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    if (!email || !password) return;
+    // demo auth: accept anything
+    setUser({ email, name: email.split("@")[0] });
+    location.href = "./index.html";
+  });
+}
+
+function initRegisterPage() {
+  const form = document.getElementById("register-form");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("register-name").value.trim();
+    const email = document.getElementById("register-email").value.trim();
+    const password = document.getElementById("register-password").value;
+    const nick = document.getElementById("register-nick").value.trim();
+    if (!name || !email || !password) return;
+    setUser({ name, email, nick });
+    location.href = "./index.html";
+  });
+}
+
+function initAccountPage() {
+  const form = document.getElementById("account-form");
+  if (!form) return;
+  const user = getUser() || {};
+  const name = document.getElementById("profile-name");
+  const email = document.getElementById("profile-email");
+  const nick = document.getElementById("profile-nick");
+  name.value = user.name || "";
+  email.value = user.email || "";
+  nick.value = user.nick || "";
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    setUser({ name: name.value.trim(), email: email.value.trim(), nick: nick.value.trim() });
+    setAuthUI();
+    alert("Đã lưu thông tin tài khoản.");
+  });
+}
+
+function readHistory() { try { return JSON.parse(localStorage.getItem(STORAGE_HISTORY) || "[]"); } catch { return []; } }
+function writeHistory(items) { try { localStorage.setItem(STORAGE_HISTORY, JSON.stringify(items)); } catch {} }
+function addHistory(type, amount) { const items = readHistory(); items.unshift({ id: Date.now(), type, amount, ts: new Date().toISOString() }); writeHistory(items); }
+
+function initBalancePage() {
+  const amountEl = document.getElementById("balance-amount");
+  if (!amountEl) return;
+  amountEl.textContent = String(game.bankroll);
+  const input = document.getElementById("balance-value");
+  const hist = document.getElementById("balance-history");
+  function renderHist() {
+    const items = readHistory();
+    hist.innerHTML = items.map(it => `<li>[${new Date(it.ts).toLocaleString()}] ${it.type === 'deposit' ? '+' : '-'}${it.amount}</li>`).join("");
+  }
+  const deposit = document.getElementById("deposit-btn");
+  const withdraw = document.getElementById("withdraw-btn");
+  if (deposit) deposit.addEventListener("click", () => {
+    const val = Math.max(1, Math.floor(Number(input.value) || 0));
+    game.bankroll += val;
+    saveBankroll();
+    amountEl.textContent = String(game.bankroll);
+    addHistory('deposit', val);
+    renderHist();
+  });
+  if (withdraw) withdraw.addEventListener("click", () => {
+    const val = Math.max(1, Math.floor(Number(input.value) || 0));
+    game.bankroll = Math.max(0, game.bankroll - val);
+    saveBankroll();
+    amountEl.textContent = String(game.bankroll);
+    addHistory('withdraw', val);
+    renderHist();
+  });
+  renderHist();
+}
+
+function readTickets() { try { return JSON.parse(localStorage.getItem(STORAGE_TICKETS) || "[]"); } catch { return []; } }
+function writeTickets(items) { try { localStorage.setItem(STORAGE_TICKETS, JSON.stringify(items)); } catch {} }
+
+function initContactPage() {
+  const form = document.getElementById("ticket-form");
+  if (!form) return;
+  const subject = document.getElementById("ticket-subject");
+  const content = document.getElementById("ticket-content");
+  const list = document.getElementById("ticket-history");
+  function renderTickets() {
+    const items = readTickets();
+    list.innerHTML = items.map(it => `<li>[${new Date(it.ts).toLocaleString()}] ${it.subject}</li>`).join("");
+  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const s = subject.value.trim(); const c = content.value.trim();
+    if (!s || !c) return;
+    const items = readTickets();
+    items.unshift({ id: Date.now(), subject: s, content: c, ts: new Date().toISOString() });
+    writeTickets(items);
+    subject.value = ""; content.value = "";
+    renderTickets();
+  });
+  renderTickets();
 }
 
 function saveBankroll() {
