@@ -43,11 +43,14 @@ export function guardPage(role) {
 }
 
 export function initAuthSplit() {
-  const split = document.getElementById('authsplit');
-  if (!split) return;
+  const stack = document.getElementById('authstack');
+  if (!stack) return;
   const setMode = (mode) => {
-    split.classList.toggle('authsplit--login', mode === 'login');
-    split.classList.toggle('authsplit--register', mode === 'register');
+    stack.classList.toggle('authstack--login', mode === 'login');
+    stack.classList.toggle('authstack--register', mode === 'register');
+    document.body.style.background = mode === 'register'
+      ? 'radial-gradient(1200px 800px at 50% -200px, #3a0000, #090909)'
+      : 'radial-gradient(1200px 800px at 50% -200px, #1f0000, #0b0b0b)';
   };
   const applyHash = () => {
     const hash = (location.hash || '#login').slice(1);
@@ -59,11 +62,6 @@ export function initAuthSplit() {
   const showLogin = document.getElementById('show-login');
   if (showRegister) showRegister.addEventListener('click', () => { location.hash = '#register'; });
   if (showLogin) showLogin.addEventListener('click', () => { location.hash = '#login'; });
-  const paneLogin = split.querySelector('.pane--login');
-  const paneRegister = split.querySelector('.pane--register');
-  const isInteractive = (el) => el.closest('form') || el.closest('button') || el.closest('input') || el.closest('a');
-  if (paneLogin) paneLogin.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#login'; });
-  if (paneRegister) paneRegister.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#register'; });
 }
 
 export function handleLoginSubmit() {
