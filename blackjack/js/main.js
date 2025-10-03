@@ -36,4 +36,3 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ctaPlay) ctaPlay.addEventListener('click', () => { location.href = './index.html'; });
 });
 
-

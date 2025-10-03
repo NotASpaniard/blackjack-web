@@ -196,9 +196,9 @@ input[type="number"] {
 .auth--scroll { border-radius: 10px; }
 
 /* Split auth with wave */
-.authsplit { position: relative; overflow: hidden; height: 520px; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,0,0,0.15); border-radius: 12px; }
+.authsplit { position: relative; overflow: hidden; height: 560px; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,0,0,0.15); border-radius: 16px; }
 .pane { position: relative; display: grid; align-content: center; }
-.pane__inner { max-width: 420px; margin: 0 auto; padding: 16px; }
+.pane__inner { max-width: 460px; margin: 0 auto; padding: 24px; }
 .pane__title { margin: 0 0 8px; font-weight: 800; }
 .pane__hint { margin: 0 0 12px; color: var(--neutral); }
 
@@ -228,6 +228,16 @@ input[type="number"] {
 .authsplit.authsplit--login .pane--register { opacity: 0.6; filter: grayscale(0.1) brightness(0.9); }
 .authsplit.authsplit--register .pane--register { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,0,0,0.15) inset; opacity: 1; }
 .authsplit.authsplit--register .pane--login { opacity: 0.6; filter: grayscale(0.1) brightness(0.95); }
+
+/* Vertical side labels */
+.pane__label { position: absolute; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; background: linear-gradient(180deg, rgba(255,0,0,0.22), rgba(0,0,0,0.5));
+  border: 1px solid rgba(255,255,255,0.25); border-radius: 14px; padding: 14px 10px; color: #fff; letter-spacing: 1px; font-weight: 900; text-shadow: 0 2px 0 #fff, 0 0 12px rgba(255,255,255,0.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.1);
+}
+.pane__label--right { right: 10px; }
+.pane__label--left { left: 10px; }
+.authsplit.authsplit--login .pane__label--right { filter: drop-shadow(0 6px 16px rgba(255,0,0,0.35)); }
+.authsplit.authsplit--register .pane__label--left { filter: drop-shadow(0 6px 16px rgba(255,0,0,0.35)); }
 
 
 
