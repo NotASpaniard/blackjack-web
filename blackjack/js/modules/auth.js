@@ -43,11 +43,13 @@ export function guardPage(role) {
 }
 
 export function initAuthSplit() {
-  const split = document.getElementById('authsplit');
-  if (!split) return;
+  const container = document.getElementById('auth-container');
+  if (!container) return;
   const setMode = (mode) => {
-    split.classList.toggle('authsplit--login', mode === 'login');
-    split.classList.toggle('authsplit--register', mode === 'register');
+    container.classList.toggle('active', mode === 'register');
+    document.body.style.background = mode === 'register'
+      ? 'radial-gradient(1200px 800px at 50% -200px, #3a0000, #090909)'
+      : 'radial-gradient(1200px 800px at 50% -200px, #1f0000, #0b0b0b)';
   };
   const applyHash = () => {
     const hash = (location.hash || '#login').slice(1);
@@ -55,15 +57,10 @@ export function initAuthSplit() {
   };
   window.addEventListener('hashchange', applyHash);
   applyHash();
-  const showRegister = document.getElementById('show-register');
-  const showLogin = document.getElementById('show-login');
-  if (showRegister) showRegister.addEventListener('click', () => { location.hash = '#register'; });
-  if (showLogin) showLogin.addEventListener('click', () => { location.hash = '#login'; });
-  const paneLogin = split.querySelector('.pane--login');
-  const paneRegister = split.querySelector('.pane--register');
-  const isInteractive = (el) => el.closest('form') || el.closest('button') || el.closest('input') || el.closest('a');
-  if (paneLogin) paneLogin.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#login'; });
-  if (paneRegister) paneRegister.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#register'; });
+  const regBtn = document.querySelector('.register-btn');
+  const logBtn = document.querySelector('.login-btn');
+  if (regBtn) regBtn.addEventListener('click', () => { location.hash = '#register'; });
+  if (logBtn) logBtn.addEventListener('click', () => { location.hash = '#login'; });
 }
 
 export function handleLoginSubmit() {

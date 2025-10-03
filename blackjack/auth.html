@@ -5,67 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Đăng nhập / Đăng ký • Sòng Địa Ngục</title>
     <link rel="stylesheet" href="./styles.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   </head>
   <body class="no-sidebar">
     <main class="app">
-      <header class="app__header">
-        <h1>Đăng nhập / Đăng ký</h1>
-      </header>
-      <section class="table authsplit authsplit--login" id="authsplit">
-        <div class="pane pane--login">
-          <div class="pane__inner">
-            <h2 class="pane__title">Cổng vào Địa ngục</h2>
-            <p class="pane__hint">Đăng nhập để vào bàn chơi</p>
-            <form id="auth-login-form" class="auth auth--gate">
-              <div class="auth__row">
-                <label>Email hoặc tên đăng nhập</label>
-                <input type="text" id="auth-login-id" placeholder="admin" />
-              </div>
-              <div class="auth__row">
-                <label>Mật khẩu</label>
-                <input type="password" id="auth-login-password" placeholder="123" />
-              </div>
-              <div class="form__actions">
-                <button class="btn btn--primary" type="submit">Đăng nhập</button>
-                <button class="btn" id="show-register" type="button">Sang đăng ký</button>
-              </div>
-            </form>
-          </div>
-          <div class="pane__label pane__label--right" id="label-login">Đăng nhập</div>
+      <div class="container auth-container" id="auth-container">
+        <div class="form-box login" id="form-login">
+          <form action="#" id="auth-login-form">
+            <h1>Đăng nhập</h1>
+            <div class="input-box">
+              <input type="text" id="auth-login-id" placeholder="Tên đăng nhập hoặc email" required>
+              <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+              <input type="password" id="auth-login-password" placeholder="Mật khẩu" required>
+              <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="forgot-link"><a href="#">Quên mật khẩu?</a></div>
+            <button type="submit" class="btn">Đăng nhập</button>
+          </form>
         </div>
-        <div class="pane pane--register">
-          <svg class="wave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0,0 C30,20 70,0 100,20 L100,100 L0,100 Z"></path>
-          </svg>
-          <div class="pane__inner">
-            <h2 class="pane__title">Khế ước linh hồn</h2>
-            <p class="pane__hint">Ký khế ước để gia nhập</p>
-            <form id="auth-register-form" class="auth auth--scroll">
-              <div class="auth__row">
-                <label>Họ tên</label>
-                <input type="text" id="auth-register-name" placeholder="Tên hiển thị" />
-              </div>
-              <div class="auth__row">
-                <label>Email</label>
-                <input type="email" id="auth-register-email" placeholder="you@example.com" />
-              </div>
-              <div class="auth__row">
-                <label>Mật khẩu</label>
-                <input type="password" id="auth-register-password" placeholder="••••••••" />
-              </div>
-              <div class="auth__row">
-                <label>Biệt danh</label>
-                <input type="text" id="auth-register-nick" placeholder="Nickname" />
-              </div>
-              <div class="form__actions">
-                <button class="btn btn--primary" type="submit">Ký khế ước</button>
-                <button class="btn" id="show-login" type="button">Sang đăng nhập</button>
-              </div>
-            </form>
-          </div>
-          <div class="pane__label pane__label--left" id="label-register">Đăng ký</div>
+
+        <div class="form-box register" id="form-register">
+          <form action="#" id="auth-register-form">
+            <h1>Đăng ký</h1>
+            <div class="input-box">
+              <input type="text" id="auth-register-name" placeholder="Họ tên" required>
+              <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+              <input type="email" id="auth-register-email" placeholder="Email" required>
+              <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box">
+              <input type="password" id="auth-register-password" placeholder="Mật khẩu" required>
+              <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box">
+              <input type="text" id="auth-register-nick" placeholder="Biệt danh">
+              <i class='bx bxs-user-detail'></i>
+            </div>
+            <button type="submit" class="btn">Ký khế ước</button>
+          </form>
         </div>
-      </section>
+
+        <div class="toggle-box">
+          <div class="toggle-panel toggle-left">
+            <h1>Xin chào!</h1>
+            <p>Chưa có tài khoản?</p>
+            <button class="btn register-btn" type="button">Đăng ký</button>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h1>Chào mừng trở lại!</h1>
+            <p>Đã có tài khoản?</p>
+            <button class="btn login-btn" type="button">Đăng nhập</button>
+          </div>
+        </div>
+      </div>
     </main>
     <script type="module" src="./js/main.js"></script>
   </body>
