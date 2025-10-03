@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blackjack</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>Blackjack</h1>
+      </header>
+
+      <section class="hud">
+        <div class="hud__bankroll">
+          <span>Ngân quỹ:</span>
+          <strong id="bankroll">0</strong>
+        </div>
+        <div class="hud__bet">
+          <span>Cược:</span>
+          <div class="bet__controls">
+            <button class="btn btn--chip" data-change="-5">-5</button>
+            <button class="btn btn--chip" data-change="-1">-1</button>
+            <input id="bet-amount" type="number" min="1" step="1" value="10" />
+            <button class="btn btn--chip" data-change="1">+1</button>
+            <button class="btn btn--chip" data-change="5">+5</button>
+          </div>
+        </div>
+        <div class="hud__actions">
+          <button id="deal-btn" class="btn btn--primary">Chia bài</button>
+          <button id="hit-btn" class="btn" disabled>Rút</button>
+          <button id="stand-btn" class="btn" disabled>Dừng</button>
+          <button id="double-btn" class="btn" disabled>Gấp đôi</button>
+          <button id="newround-btn" class="btn" disabled>Ván mới</button>
+        </div>
+      </section>
+
+      <section class="table">
+        <div class="hand hand--dealer">
+          <h2>Nhà cái <span id="dealer-score" class="score"></span></h2>
+          <div id="dealer-cards" class="cards"></div>
+        </div>
+        <div class="hand hand--player">
+          <h2>Người chơi <span id="player-score" class="score"></span></h2>
+          <div id="player-cards" class="cards"></div>
+        </div>
+      </section>
+
+      <section class="message">
+        <div id="message-text"></div>
+      </section>
+
+      <footer class="app__footer">
+        <small>Lưu ngân quỹ trong trình duyệt. Chuẩn bị sẵn để kết nối DB sau.</small>
+      </footer>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+  </html>
+
