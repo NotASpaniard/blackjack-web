@@ -30,16 +30,21 @@ export function setAuthUI() {
 }
 
 export function logoutAndRedirect() {
-  setUser(null);
-  location.href = './auth.html#login';
+  fetch('http://localhost:4000/auth/logout', { method: 'POST', credentials: 'include' })
+    .finally(() => { setUser(null); location.href = './auth.html#login'; });
 }
 
 export function guardPage(role) {
   if (role === 'admin') {
-    if (!isAdmin()) { location.href = './auth.html#login'; }
+    if (!isAdmin()) { location.href = './auth.html#login'; return; }
   } else if (role === 'user') {
-    if (!isLoggedIn()) { location.href = './auth.html#login'; }
+    if (!isLoggedIn()) { location.href = './auth.html#login'; return; }
   }
+  // Optionally verify session with backend
+  fetch('http://localhost:4000/auth/me', { credentials: 'include' })
+    .then((r) => { if (!r.ok) throw new Error('unauth'); return r.json(); })
+    .then(({ user }) => { if (!user) throw new Error('unauth'); })
+    .catch(() => { setUser(null); location.href = './auth.html#login'; });
 }
 
 export function initAuthSplit() {
@@ -73,12 +78,10 @@ export function handleLoginSubmit() {
     const id = (idEl ? idEl.value : '').trim();
     const password = passEl ? passEl.value : '';
     if (!id || !password) return;
-    if (id === 'admin' && password === '123') {
-      setUser({ email: 'admin@example.com', name: 'admin', nick: 'Admin' });
-      location.href = './index.html';
-      return;
-    }
-    alert('Sai tài khoản hoặc mật khẩu. Dùng admin/123.');
+    fetch('http://localhost:4000/auth/login', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, password }) })
+      .then(async (r) => { if (!r.ok) throw new Error((await r.json()).error || 'Login failed'); return r.json(); })
+      .then(({ user }) => { setUser(user); location.href = './index.html'; })
+      .catch((err) => alert(err.message));
   });
 }
 
@@ -96,8 +99,10 @@ export function handleRegisterSubmit() {
     const password = passEl ? passEl.value : '';
     const nick = nickEl ? nickEl.value.trim() : '';
     if (!name || !email || !password) return;
-    alert('Đăng ký thành công. Mời bạn đăng nhập.');
-    location.hash = '#login';
+    fetch('http://localhost:4000/auth/register', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password, nick }) })
+      .then(async (r) => { if (!r.ok) throw new Error((await r.json()).error || 'Register failed'); return r.json(); })
+      .then(() => { alert('Đăng ký thành công. Mời bạn đăng nhập.'); location.hash = '#login'; })
+      .catch((err) => alert(err.message));
   });
 }
 

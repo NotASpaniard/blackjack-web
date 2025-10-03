@@ -8,8 +8,14 @@ function addHistory(type, amount) { const items = readHistory(); items.unshift({
 export function initBalance() {
   const amountEl = document.getElementById('balance-amount');
   if (!amountEl) return;
-  let bankroll = 0; try { bankroll = Math.max(0, Number(localStorage.getItem(STORAGE_KEY) || '0')); } catch {}
-  amountEl.textContent = String(bankroll);
+  async function refreshBalance() {
+    try {
+      const r = await fetch('http://localhost:4000/wallet/balance', { credentials: 'include' });
+      const { balance } = await r.json();
+      amountEl.textContent = String(balance);
+    } catch {}
+  }
+  refreshBalance();
   const input = document.getElementById('balance-value');
   const hist = document.getElementById('balance-history');
   function renderHist() {
@@ -18,17 +24,15 @@ export function initBalance() {
   }
   const deposit = document.getElementById('deposit-btn');
   const withdraw = document.getElementById('withdraw-btn');
-  if (deposit) deposit.addEventListener('click', () => {
+  if (deposit) deposit.addEventListener('click', async () => {
     const val = Math.max(1, Math.floor(Number(input.value) || 0));
-    bankroll += val; localStorage.setItem(STORAGE_KEY, String(bankroll));
-    amountEl.textContent = String(bankroll);
-    addHistory('deposit', val); renderHist();
+    await fetch('http://localhost:4000/wallet/deposit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: val }) });
+    await refreshBalance(); addHistory('deposit', val); renderHist();
   });
-  if (withdraw) withdraw.addEventListener('click', () => {
+  if (withdraw) withdraw.addEventListener('click', async () => {
     const val = Math.max(1, Math.floor(Number(input.value) || 0));
-    bankroll = Math.max(0, bankroll - val); localStorage.setItem(STORAGE_KEY, String(bankroll));
-    amountEl.textContent = String(bankroll);
-    addHistory('withdraw', val); renderHist();
+    await fetch('http://localhost:4000/wallet/withdraw', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: val }) });
+    await refreshBalance(); addHistory('withdraw', val); renderHist();
   });
   renderHist();
 }
