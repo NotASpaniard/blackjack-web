@@ -48,6 +48,8 @@ const els = {
   bankroll: document.getElementById("bankroll"),
   betInput: document.getElementById("bet-amount"),
   betChips: document.querySelectorAll(".btn--chip"),
+  sidebar: document.getElementById("sidebar"),
+  sidebarToggle: document.getElementById("sidebar-toggle"),
   dealBtn: document.getElementById("deal-btn"),
   hitBtn: document.getElementById("hit-btn"),
   standBtn: document.getElementById("stand-btn"),
@@ -60,7 +62,13 @@ const els = {
   message: document.getElementById("message-text"),
 };
 
+const IS_GAME = Boolean(
+  els.dealBtn && els.hitBtn && els.standBtn && els.doubleBtn && els.newRoundBtn &&
+  els.dealerCards && els.playerCards && els.bankroll && els.betInput
+);
+
 const STORAGE_KEY = "blackjack_bankroll_v1";
+const STORAGE_SIDEBAR = "blackjack_sidebar_open_v1";
 
 const game = {
   deck: [],
@@ -84,11 +92,35 @@ function loadBankroll() {
   updateHUD();
 }
 
+function loadSidebarState() {
+  try {
+    const val = localStorage.getItem(STORAGE_SIDEBAR);
+    const open = val !== "false"; // default open
+    setSidebarOpen(open);
+  } catch (e) { setSidebarOpen(true); }
+}
+
+function saveSidebarState(open) {
+  try { localStorage.setItem(STORAGE_SIDEBAR, String(open)); } catch (e) { /* ignore */ }
+}
+
+function setSidebarOpen(open) {
+  if (!els.sidebar) return;
+  if (open) {
+    els.sidebar.classList.remove("sidebar--collapsed");
+    els.sidebarToggle && els.sidebarToggle.setAttribute("aria-expanded", "true");
+  } else {
+    els.sidebar.classList.add("sidebar--collapsed");
+    els.sidebarToggle && els.sidebarToggle.setAttribute("aria-expanded", "false");
+  }
+}
+
 function saveBankroll() {
   try { localStorage.setItem(STORAGE_KEY, String(game.bankroll)); } catch (e) { /* ignore */ }
 }
 
 function updateHUD() {
+  if (!IS_GAME) return;
   els.bankroll.textContent = `${game.bankroll}`;
   els.betInput.value = String(game.bet);
   const canAct = game.inRound && !isRoundOver();
@@ -103,6 +135,7 @@ function setMessage(text) {
 }
 
 function renderHands() {
+  if (!IS_GAME) return;
   // Dealer
   els.dealerCards.innerHTML = "";
   game.dealer.forEach((c, idx) => {
@@ -298,29 +331,41 @@ function newRound() {
 }
 
 function setupEvents() {
-  els.dealBtn.addEventListener("click", startRound);
-  els.hitBtn.addEventListener("click", playerHit);
-  els.standBtn.addEventListener("click", playerStand);
-  els.doubleBtn.addEventListener("click", playerDouble);
-  els.newRoundBtn.addEventListener("click", newRound);
+  if (els.dealBtn) els.dealBtn.addEventListener("click", startRound);
+  if (els.hitBtn) els.hitBtn.addEventListener("click", playerHit);
+  if (els.standBtn) els.standBtn.addEventListener("click", playerStand);
+  if (els.doubleBtn) els.doubleBtn.addEventListener("click", playerDouble);
+  if (els.newRoundBtn) els.newRoundBtn.addEventListener("click", newRound);
+  if (els.sidebarToggle) {
+    els.sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = els.sidebar.classList.toggle("sidebar--collapsed");
+      saveSidebarState(!isCollapsed);
+    });
+  }
   els.betChips.forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (!IS_GAME) return;
       const delta = Number(btn.dataset.change);
       const next = Math.max(1, Math.floor(Number(els.betInput.value || 0) + delta));
       els.betInput.value = String(next);
     });
   });
-  els.betInput.addEventListener("change", () => {
-    const val = Math.max(1, Math.floor(Number(els.betInput.value) || 1));
-    els.betInput.value = String(val);
-    game.bet = val;
-  });
+  if (els.betInput) {
+    els.betInput.addEventListener("change", () => {
+      if (!IS_GAME) return;
+      const val = Math.max(1, Math.floor(Number(els.betInput.value) || 1));
+      els.betInput.value = String(val);
+      game.bet = val;
+    });
+  }
 }
 
 // Initialization
 setupEvents();
-loadBankroll();
-renderHands();
-updateHUD();
-
+loadSidebarState();
+if (IS_GAME) {
+  loadBankroll();
+  renderHands();
+  updateHUD();
+}
 

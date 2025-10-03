@@ -37,4 +37,3 @@ Sau đó truy cập `http://localhost:8080`.
 
 - Trình duyệt hiện đại là đủ, không phụ thuộc build tool.
 - Nếu cần deploy tĩnh, chỉ cần phục vụ thư mục `blackjack/`.
-
