@@ -149,31 +149,64 @@ function setAuthUI() {
 
 // Page initializers
 function initLoginPage() {
-  const form = document.getElementById("login-form");
+  const split = document.getElementById("authsplit");
+  if (split) {
+    // hash control
+    const setMode = (mode) => {
+      split.classList.toggle("authsplit--login", mode === 'login');
+      split.classList.toggle("authsplit--register", mode === 'register');
+    };
+    const applyHash = () => {
+      const hash = (location.hash || '#login').slice(1);
+      setMode(hash === 'register' ? 'register' : 'login');
+    };
+    window.addEventListener('hashchange', applyHash);
+    applyHash();
+    const showRegister = document.getElementById('show-register');
+    const showLogin = document.getElementById('show-login');
+    if (showRegister) showRegister.addEventListener('click', () => { location.hash = '#register'; });
+    if (showLogin) showLogin.addEventListener('click', () => { location.hash = '#login'; });
+  }
+  const form = document.getElementById("login-form") || document.getElementById("auth-login-form");
   if (!form) return;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const email = document.getElementById("login-email").value.trim();
-    const password = document.getElementById("login-password").value;
-    if (!email || !password) return;
-    // demo auth: accept anything
-    setUser({ email, name: email.split("@")[0] });
-    location.href = "./index.html";
+    const idEl = document.getElementById("auth-login-id") || document.getElementById("login-email");
+    const passEl = document.getElementById("auth-login-password") || document.getElementById("login-password");
+    const id = (idEl ? idEl.value : "").trim();
+    const password = passEl ? passEl.value : "";
+    if (!id || !password) return;
+    // hardcoded admin/123
+    if (id === 'admin' && password === '123') {
+      setUser({ email: 'admin@example.com', name: 'admin', nick: 'Admin' });
+      location.href = "./index.html";
+      return;
+    }
+    alert('Sai tài khoản hoặc mật khẩu. Dùng admin/123.');
   });
 }
 
 function initRegisterPage() {
-  const form = document.getElementById("register-form");
+  const form = document.getElementById("register-form") || document.getElementById("auth-register-form");
   if (!form) return;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const name = document.getElementById("register-name").value.trim();
-    const email = document.getElementById("register-email").value.trim();
-    const password = document.getElementById("register-password").value;
-    const nick = document.getElementById("register-nick").value.trim();
+    const nameEl = document.getElementById("auth-register-name") || document.getElementById("register-name");
+    const emailEl = document.getElementById("auth-register-email") || document.getElementById("register-email");
+    const passEl = document.getElementById("auth-register-password") || document.getElementById("register-password");
+    const nickEl = document.getElementById("auth-register-nick") || document.getElementById("register-nick");
+    const name = nameEl ? nameEl.value.trim() : "";
+    const email = emailEl ? emailEl.value.trim() : "";
+    const password = passEl ? passEl.value : "";
+    const nick = nickEl ? nickEl.value.trim() : "";
     if (!name || !email || !password) return;
-    setUser({ name, email, nick });
-    location.href = "./index.html";
+    // For now, do not auto-login; redirect to login view
+    alert('Đăng ký thành công. Mời bạn đăng nhập.');
+    if (location.pathname.endsWith('auth.html')) {
+      location.hash = '#login';
+    } else {
+      location.href = './auth.html#login';
+    }
   });
 }
 
@@ -504,9 +537,12 @@ function setupEvents() {
 // Initialization
 setupEvents();
 loadSidebarState();
+setAuthUI();
 if (IS_GAME) {
   loadBankroll();
   renderHands();
   updateHUD();
 }
+initLoginPage();
+initRegisterPage();
 

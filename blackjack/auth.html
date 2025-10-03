@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập / Đăng ký • Sòng Địa Ngục</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <span class="brand__logo">♠</span>
+        <span class="brand__name">Sòng Địa Ngục</span>
+      </div>
+      <div class="sidebar__user">
+        <div class="avatar" id="avatar">ND</div>
+        <div class="user__meta">
+          <div class="user__name" id="username">Khách</div>
+        </div>
+      </div>
+      <nav class="sidebar__menu">
+        <a class="nav__item" href="./index.html">Bàn chơi</a>
+        <a class="nav__item" href="./account.html">Tài khoản</a>
+        <a class="nav__item" href="./balance.html">Số dư</a>
+        <a class="nav__item" href="./contact.html">Liên hệ</a>
+        <a class="nav__item" href="./help.html">Trợ giúp</a>
+      </nav>
+      <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Đóng/mở thanh điều hướng" aria-expanded="true">
+        <span class="triangle" aria-hidden="true"></span>
+      </button>
+    </nav>
+    <main class="app">
+      <header class="app__header">
+        <h1>Đăng nhập / Đăng ký</h1>
+      </header>
+      <section class="table authsplit authsplit--login" id="authsplit">
+        <div class="pane pane--login">
+          <div class="pane__inner">
+            <h2 class="pane__title">Cổng vào Địa ngục</h2>
+            <p class="pane__hint">Đăng nhập để vào bàn chơi</p>
+            <form id="auth-login-form" class="auth auth--gate">
+              <div class="auth__row">
+                <label>Email hoặc tên đăng nhập</label>
+                <input type="text" id="auth-login-id" placeholder="admin" />
+              </div>
+              <div class="auth__row">
+                <label>Mật khẩu</label>
+                <input type="password" id="auth-login-password" placeholder="123" />
+              </div>
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit">Đăng nhập</button>
+                <button class="btn" id="show-register" type="button">Sang đăng ký</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="pane pane--register">
+          <svg class="wave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,0 C30,20 70,0 100,20 L100,100 L0,100 Z"></path>
+          </svg>
+          <div class="pane__inner">
+            <h2 class="pane__title">Khế ước linh hồn</h2>
+            <p class="pane__hint">Ký khế ước để gia nhập</p>
+            <form id="auth-register-form" class="auth auth--scroll">
+              <div class="auth__row">
+                <label>Họ tên</label>
+                <input type="text" id="auth-register-name" placeholder="Tên hiển thị" />
+              </div>
+              <div class="auth__row">
+                <label>Email</label>
+                <input type="email" id="auth-register-email" placeholder="you@example.com" />
+              </div>
+              <div class="auth__row">
+                <label>Mật khẩu</label>
+                <input type="password" id="auth-register-password" placeholder="••••••••" />
+              </div>
+              <div class="auth__row">
+                <label>Biệt danh</label>
+                <input type="text" id="auth-register-nick" placeholder="Nickname" />
+              </div>
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit">Ký khế ước</button>
+                <button class="btn" id="show-login" type="button">Sang đăng nhập</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="./app.js" defer></script>
+  </body>
+  </html>
+
