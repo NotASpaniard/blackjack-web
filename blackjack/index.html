@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <span class="brand__logo">♠</span>
+        <span class="brand__name">Sòng Địa Ngục</span>
+      </div>
+      <div class="sidebar__user">
+        <div class="avatar" id="avatar">ND</div>
+        <div class="user__meta">
+          <div class="user__name" id="username">Người chơi</div>
+        </div>
+      </div>
+      <nav class="sidebar__menu">
+        <button class="nav__item" data-action="account">Tài khoản</button>
+        <button class="nav__item" data-action="balance">Số dư</button>
+        <button class="nav__item" data-action="contact">Liên hệ</button>
+        <button class="nav__item" data-action="help">Trợ giúp</button>
+      </nav>
+      <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Đóng/mở thanh điều hướng" aria-expanded="true">
+        <span class="triangle" aria-hidden="true"></span>
+      </button>
+    </nav>
     <main class="app">
       <header class="app__header">
         <h1>Blackjack</h1>

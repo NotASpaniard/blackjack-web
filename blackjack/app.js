@@ -48,6 +48,8 @@ const els = {
   bankroll: document.getElementById("bankroll"),
   betInput: document.getElementById("bet-amount"),
   betChips: document.querySelectorAll(".btn--chip"),
+  sidebar: document.getElementById("sidebar"),
+  sidebarToggle: document.getElementById("sidebar-toggle"),
   dealBtn: document.getElementById("deal-btn"),
   hitBtn: document.getElementById("hit-btn"),
   standBtn: document.getElementById("stand-btn"),
@@ -61,6 +63,7 @@ const els = {
 };
 
 const STORAGE_KEY = "blackjack_bankroll_v1";
+const STORAGE_SIDEBAR = "blackjack_sidebar_open_v1";
 
 const game = {
   deck: [],
@@ -82,6 +85,29 @@ function loadBankroll() {
     // ignore
   }
   updateHUD();
+}
+
+function loadSidebarState() {
+  try {
+    const val = localStorage.getItem(STORAGE_SIDEBAR);
+    const open = val !== "false"; // default open
+    setSidebarOpen(open);
+  } catch (e) { setSidebarOpen(true); }
+}
+
+function saveSidebarState(open) {
+  try { localStorage.setItem(STORAGE_SIDEBAR, String(open)); } catch (e) { /* ignore */ }
+}
+
+function setSidebarOpen(open) {
+  if (!els.sidebar) return;
+  if (open) {
+    els.sidebar.classList.remove("sidebar--collapsed");
+    els.sidebarToggle && els.sidebarToggle.setAttribute("aria-expanded", "true");
+  } else {
+    els.sidebar.classList.add("sidebar--collapsed");
+    els.sidebarToggle && els.sidebarToggle.setAttribute("aria-expanded", "false");
+  }
 }
 
 function saveBankroll() {
@@ -303,6 +329,12 @@ function setupEvents() {
   els.standBtn.addEventListener("click", playerStand);
   els.doubleBtn.addEventListener("click", playerDouble);
   els.newRoundBtn.addEventListener("click", newRound);
+  if (els.sidebarToggle) {
+    els.sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = els.sidebar.classList.toggle("sidebar--collapsed");
+      saveSidebarState(!isCollapsed);
+    });
+  }
   els.betChips.forEach((btn) => {
     btn.addEventListener("click", () => {
       const delta = Number(btn.dataset.change);
@@ -320,6 +352,7 @@ function setupEvents() {
 // Initialization
 setupEvents();
 loadBankroll();
+loadSidebarState();
 renderHands();
 updateHUD();
 
