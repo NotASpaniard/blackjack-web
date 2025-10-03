@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tầng 19</title>
+    <style>
+        body {
+            background: #111;
+            color: #ee2222;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 380px;
+            margin: 40px auto;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #ee2222;
+            border-radius: 18px;
+            box-shadow: 0px 0px 16px #ee222288;
+            padding: 30px 30px 24px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ee2222;
+            text-shadow: 0 0 12px #ee2222aa;
+            font-size: 2rem;
+        }
+        
+        .coins {
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin: 10px 0 12px 0;
+            color: #ee4444;
+        }
+        
+        .message {
+            margin: 12px 0 16px 0;
+            font-size: 1rem;
+            color: #fff;
+            background: #44000044;
+            border-radius: 6px;
+            padding: 8px;
+            min-height: 28px;
+        }
+        
+        form {
+            margin-top: 20px;
+        }
+        
+        input[type="number"] {
+            padding: 6px 10px;
+            border: 2px solid #ee5555;
+            border-radius: 8px;
+            background: #222;
+            color: #ee2222;
+            font-size: 1.1rem;
+            width: 80px;
+            margin: 0 10px;
+        }
+        
+        button {
+            padding: 8px 20px;
+            background: #ee2222;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px #ee222299;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        button:hover {
+            background: #a01010;
+        }
+        
+        .restart-btn {
+            margin-top: 18px;
+            background: #222;
+            color: #fff;
+            border: 2px solid #ee2222;
+            font-size: 0.95rem;
+            padding: 6px 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎰 Gacha linh hồn</h1>
+        <div class="coins">Bạn có: {{ coins }} cốc cà phê</div>
+        <div class="message">{{ message }}</div>
+        <form method="POST" action="/play">
+            <label for="bet">Số cược:</label>
+            <input type="number" id="bet" name="bet" min="1" step="1" value="100" required>
+            <button type="submit">Chơi!</button>
+        </form>
+        <form method="GET" action="/restart">
+            <button class="restart-btn" type="submit">Khởi động lại</button>
+        </form>
+    </div>
+</body>
+
+</html>
