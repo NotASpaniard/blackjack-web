@@ -171,6 +171,12 @@ function initLoginPage() {
     const showLogin = document.getElementById('show-login');
     if (showRegister) showRegister.addEventListener('click', () => { location.hash = '#register'; });
     if (showLogin) showLogin.addEventListener('click', () => { location.hash = '#login'; });
+    // Click panes to switch emphasis (but avoid when clicking form controls)
+    const paneLogin = split.querySelector('.pane--login');
+    const paneRegister = split.querySelector('.pane--register');
+    const isInteractive = (el) => el.closest('form') || el.closest('button') || el.closest('input') || el.closest('a');
+    if (paneLogin) paneLogin.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#login'; });
+    if (paneRegister) paneRegister.addEventListener('click', (e) => { if (!isInteractive(e.target)) location.hash = '#register'; });
   }
   const form = document.getElementById("login-form") || document.getElementById("auth-login-form");
   if (!form) return;

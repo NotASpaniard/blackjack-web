@@ -211,5 +211,13 @@ input[type="number"] {
 
 .authsplit .btn { will-change: transform; }
 
+/* Emphasis on active pane, fade the other */
+.authsplit .pane { transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease, box-shadow 0.45s ease; cursor: pointer; }
+.authsplit .pane .auth, .authsplit .pane button, .authsplit .pane input, .authsplit .pane label { cursor: auto; }
+.authsplit.authsplit--login .pane--login { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,0,0,0.15) inset; opacity: 1; }
+.authsplit.authsplit--login .pane--register { opacity: 0.6; filter: grayscale(0.1) brightness(0.9); }
+.authsplit.authsplit--register .pane--register { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,0,0,0.15) inset; opacity: 1; }
+.authsplit.authsplit--register .pane--login { opacity: 0.6; filter: grayscale(0.1) brightness(0.95); }
+
 
 
