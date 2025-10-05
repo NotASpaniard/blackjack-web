@@ -9,9 +9,9 @@ import { store } from './store.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const ORIGIN = process.env.ORIGIN || 'http://localhost:3000';
+const ORIGIN = process.env.ORIGIN || undefined; // accept any localhost origin by default
 
-app.use(cors({ origin: ORIGIN, credentials: true }));
+app.use(cors({ origin: (origin, cb) => cb(null, true), credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
