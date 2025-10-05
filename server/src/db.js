@@ -21,7 +21,7 @@ export async function initSchema() {
   );
   create table if not exists wallets (
     user_id text primary key references users(id) on delete cascade,
-    balance bigint not null default 0
+    balance bigint not null default 0 check (balance >= 0)
   );
   create table if not exists transactions (
     id bigserial primary key,
@@ -29,6 +29,31 @@ export async function initSchema() {
     amount bigint not null,
     created_at timestamptz not null default now()
   );
+  create table if not exists game_rounds (
+    id bigserial primary key,
+    user_id text not null references users(id) on delete cascade,
+    started_at timestamptz not null default now(),
+    finished_at timestamptz,
+    outcome text,
+    bet bigint not null default 0 check (bet >= 0),
+    payout bigint not null default 0
+  );
+  create table if not exists hands (
+    id bigserial primary key,
+    round_id bigint not null references game_rounds(id) on delete cascade,
+    role text not null,
+    cards text not null
+  );
+  create table if not exists audit_logs (
+    id bigserial primary key,
+    actor_user_id text references users(id) on delete set null,
+    action text not null,
+    details jsonb,
+    created_at timestamptz not null default now()
+  );
+  create index if not exists idx_sessions_user on sessions(user_id);
+  create index if not exists idx_tx_user on transactions(user_id);
+  create index if not exists idx_rounds_user on game_rounds(user_id);
   create table if not exists tickets (
     id bigserial primary key,
     user_id text not null references users(id) on delete cascade,
@@ -37,5 +62,6 @@ export async function initSchema() {
     created_at timestamptz not null default now()
   );
   `);
+  await pool.query("alter table users add constraint if not exists chk_role check (role in ('user','admin'))");
 }
 

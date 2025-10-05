@@ -26,12 +26,30 @@ walletRouter.get('/balance', async (req, res) => {
 walletRouter.post('/deposit', async (req, res) => {
   const user = await requireUser(req, res); if (!user) return res.status(401).json({ error: 'Unauthorized' });
   const { amount } = req.body || {}; const v = Math.max(1, Math.floor(Number(amount)||0));
-  const balance = await store.addBalance(user.id, v); return res.json({ balance });
+  const balance = await store.addBalance(user.id, v);
+  await store.addTransaction(user.id, v);
+  await store.addAudit(user.id, 'deposit', { amount: v });
+  return res.json({ balance });
 });
 
 walletRouter.post('/withdraw', async (req, res) => {
   const user = await requireUser(req, res); if (!user) return res.status(401).json({ error: 'Unauthorized' });
   const { amount } = req.body || {}; const v = Math.max(1, Math.floor(Number(amount)||0));
-  const balance = await store.addBalance(user.id, -v); return res.json({ balance });
+  const balance = await store.addBalance(user.id, -v);
+  await store.addTransaction(user.id, -v);
+  await store.addAudit(user.id, 'withdraw', { amount: v });
+  return res.json({ balance });
+});
+
+walletRouter.post('/topup', async (req, res) => {
+  const user = await requireUser(req, res); if (!user) return res.status(401).json({ error: 'Unauthorized' });
+  const { packageId } = req.body || {};
+  const mapping = { coffee1: 10000, coffee10: 50000, coffee30: 100000 };
+  const amount = mapping[packageId];
+  if (!amount) return res.status(400).json({ error: 'Invalid package' });
+  const balance = await store.addBalance(user.id, amount);
+  await store.addTransaction(user.id, amount);
+  await store.addAudit(user.id, 'topup', { packageId, amount });
+  return res.json({ balance });
 });
 

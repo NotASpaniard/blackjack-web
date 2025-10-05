@@ -37,5 +37,7 @@ export const store = {
   async deleteSession(token) { await pool.query('delete from sessions where token=$1', [token]); },
   async getBalance(userId) { const r = await pool.query('select balance from wallets where user_id=$1', [userId]); return Number(r.rows[0]?.balance || 0); },
   async addBalance(userId, delta) { const r = await pool.query('update wallets set balance = GREATEST(0, balance + $2) where user_id=$1 returning balance', [userId, delta]); return Number(r.rows[0].balance); },
+  async addTransaction(userId, amount) { await pool.query('insert into transactions(user_id,amount) values($1,$2)', [userId, amount]); },
+  async addAudit(actorUserId, action, details) { await pool.query('insert into audit_logs(actor_user_id,action,details) values($1,$2,$3)', [actorUserId, action, details ? JSON.stringify(details) : null]); },
 };
 

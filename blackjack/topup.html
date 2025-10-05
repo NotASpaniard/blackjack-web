@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tài khoản • Sòng Địa Ngục</title>
+    <title>Nạp tiền • Sòng Địa Ngục</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -20,6 +20,7 @@
       </div>
       <nav class="sidebar__menu">
         <a class="nav__item" id="admin-link" href="./admin.html" style="display:none">Admin</a>
+        <a class="nav__item" href="./index.html">Bàn chơi</a>
         <a class="nav__item" href="./account.html">Tài khoản</a>
         <a class="nav__item" href="./balance.html">Số dư</a>
         <a class="nav__item" href="./topup.html">Nạp tiền</a>
@@ -41,26 +42,27 @@
     </nav>
     <main class="app">
       <header class="app__header">
-        <h1>Tài khoản</h1>
+        <h1>Nạp tiền</h1>
       </header>
       <section class="table">
-        <form id="account-form" class="form">
-          <div class="form__row">
-            <label>Họ tên</label>
-            <input type="text" id="profile-name" placeholder="Tên hiển thị" />
+        <div class="topup__grid">
+          <div class="topup__card" data-id="coffee1">
+            <div class="topup__price">10.000 VNĐ</div>
+            <div class="topup__desc">= 1 cốc cà phê</div>
+            <button class="btn">Nạp gói này</button>
           </div>
-          <div class="form__row">
-            <label>Email</label>
-            <input type="email" id="profile-email" placeholder="you@example.com" />
+          <div class="topup__card" data-id="coffee10">
+            <div class="topup__price">50.000 VNĐ</div>
+            <div class="topup__desc">= 10 cốc cà phê</div>
+            <button class="btn">Nạp gói này</button>
           </div>
-          <div class="form__row">
-            <label>Biệt danh</label>
-            <input type="text" id="profile-nick" placeholder="Nickname" />
+          <div class="topup__card" data-id="coffee30">
+            <div class="topup__price">100.000 VNĐ</div>
+            <div class="topup__desc">= 30 cốc cà phê</div>
+            <button class="btn">Nạp gói này</button>
           </div>
-          <div class="form__actions">
-            <button class="btn btn--primary" type="submit">Lưu</button>
-          </div>
-        </form>
+        </div>
+        <div style="margin-top:12px;color:var(--neutral)">Số dư hiện tại: <strong id="topup-balance">0</strong></div>
       </section>
     </main>
     <script type="module" src="./js/main.js"></script>

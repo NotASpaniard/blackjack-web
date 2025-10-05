@@ -37,3 +37,22 @@ export function initBalance() {
   renderHist();
 }
 
+export function initTopup() {
+  const cards = document.querySelectorAll('.topup__card');
+  if (!cards.length) return;
+  const balanceEl = document.getElementById('topup-balance');
+  async function refresh() {
+    try { const r = await fetch('http://localhost:4000/wallet/balance', { credentials: 'include' }); const { balance } = await r.json(); balanceEl.textContent = String(balance); } catch {}
+  }
+  cards.forEach((c) => {
+    const id = c.getAttribute('data-id');
+    const btn = c.querySelector('button');
+    if (btn) btn.addEventListener('click', async () => {
+      await fetch('http://localhost:4000/wallet/topup', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ packageId: id }) });
+      await refresh();
+      alert('Nạp thành công');
+    });
+  });
+  refresh();
+}
+

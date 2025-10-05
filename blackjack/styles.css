@@ -179,6 +179,12 @@ input[type="number"] {
 .list { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
 .list li { padding: 8px 10px; background: #0f0f0f; border: 1px solid rgba(255,0,0,0.15); border-radius: 8px; }
 
+/* Topup */
+.topup__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.topup__card { background: #100b0b; border: 1px solid rgba(255,0,0,0.2); border-radius: 12px; padding: 16px; display: grid; gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+.topup__price { color: var(--accent); font-weight: 800; letter-spacing: .3px; }
+.topup__desc { color: var(--neutral); }
+
 /* Auth */
 .auth__container { display: grid; place-items: center; min-height: 360px; }
 .auth { width: min(520px, 100%); margin: 0 auto; }
